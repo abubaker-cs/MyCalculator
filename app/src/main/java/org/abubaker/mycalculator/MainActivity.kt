@@ -78,8 +78,6 @@ class MainActivity : AppCompatActivity() {
                  */
                 if (tvValue.contains("-")) {
 
-                    // performCalculation("-")
-
                     // - Split text to prepare
                     val splitValue = tvValue.split("-")
 
@@ -153,9 +151,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun performCalculation(s: String) {
-        Toast.makeText(this, "You sent me: $s", Toast.LENGTH_SHORT).show()
-    }
 
     private fun removeZeroAfterDot(result: String): String {
         var value = result

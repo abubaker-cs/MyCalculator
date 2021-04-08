@@ -19,7 +19,6 @@
             android:gravity="end|center_vertical|bottom"
             android:maxLength="12"
             android:padding="10dp"
-            android:text="0"
             android:textSize="48sp" />
 
         <!-- 7-9 -->
