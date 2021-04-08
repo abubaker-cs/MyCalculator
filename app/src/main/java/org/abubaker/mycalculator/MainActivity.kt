@@ -3,6 +3,7 @@ package org.abubaker.mycalculator
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import org.abubaker.mycalculator.databinding.ActivityMainBinding
@@ -61,7 +62,6 @@ class MainActivity : AppCompatActivity() {
             var prefix = ""
 
             try {
-
                 /**
                  * Safety Check: -89-40
                  * In the above example, splitter will retrieve 3 values, i.e. -, 89 and 40
@@ -77,6 +77,9 @@ class MainActivity : AppCompatActivity() {
                  * - Subtract values and update Display (tvInput) with the result
                  */
                 if (tvValue.contains("-")) {
+
+                    // performCalculation("-")
+
                     // - Split text to prepare
                     val splitValue = tvValue.split("-")
 
@@ -89,8 +92,56 @@ class MainActivity : AppCompatActivity() {
                         one = prefix + one
                     }
 
+                    binding.tvInput.text =
+                        removeZeroAfterDot((one.toDouble() - two.toDouble()).toString())
 
-                    binding.tvInput.text = (one.toDouble() - two.toDouble()).toString()
+                } else if (tvValue.contains("+")) {
+                    // - Split text to prepare
+                    val splitValue = tvValue.split("+")
+
+                    // Store Filtered values from the "split
+                    var one = splitValue[0] // Left Side
+                    var two = splitValue[1] // Right Side
+
+                    // If prefix is not empty then use the original provided value
+                    if (!prefix.isEmpty()) {
+                        one = prefix + one
+                    }
+
+                    binding.tvInput.text =
+                        removeZeroAfterDot((one.toDouble() + two.toDouble()).toString())
+
+                } else if (tvValue.contains("/")) {
+                    // - Split text to prepare
+                    val splitValue = tvValue.split("/")
+
+                    // Store Filtered values from the "split
+                    var one = splitValue[0] // Left Side
+                    var two = splitValue[1] // Right Side
+
+                    // If prefix is not empty then use the original provided value
+                    if (!prefix.isEmpty()) {
+                        one = prefix + one
+                    }
+
+                    binding.tvInput.text =
+                        removeZeroAfterDot((one.toDouble() / two.toDouble()).toString())
+
+                } else if (tvValue.contains("*")) {
+                    // - Split text to prepare
+                    val splitValue = tvValue.split("*")
+
+                    // Store Filtered values from the "split
+                    var one = splitValue[0] // Left Side
+                    var two = splitValue[1] // Right Side
+
+                    // If prefix is not empty then use the original provided value
+                    if (!prefix.isEmpty()) {
+                        one = prefix + one
+                    }
+
+                    binding.tvInput.text =
+                        removeZeroAfterDot((one.toDouble() * two.toDouble()).toString())
 
                 }
 
@@ -100,6 +151,20 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun performCalculation(s: String) {
+        Toast.makeText(this, "You sent me: $s", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun removeZeroAfterDot(result: String): String {
+        var value = result
+
+        // Use the string as it is, but get rid of last two characters from end of the index, i.e. 99.0 = 99
+        if (result.contains(".0"))
+            value = result.substring(0, result.length - 2)
+
+        return value
     }
 
     fun onOperator(view: View) {
