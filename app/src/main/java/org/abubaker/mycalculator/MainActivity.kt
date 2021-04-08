@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClear(view: View) {
-        binding.tvInput.setText("")
+        binding.tvInput.text = ""
 
         // reset helper variables
         lastNumeric = false
