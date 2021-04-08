@@ -3,6 +3,7 @@ package org.abubaker.mycalculator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import org.abubaker.mycalculator.databinding.ActivityMainBinding
@@ -22,9 +23,13 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    // onDigit() -  on Button click
+    // onDigit() -  on clicking 0-9 Digits
     fun onDigit(view: View) {
-        Toast.makeText(this, "Button works", Toast.LENGTH_SHORT).show()
+        binding.tvInput.append((view as Button).text)
+    }
+
+    fun onClear(view: View) {
+        binding.tvInput.setText("")
     }
 
 
