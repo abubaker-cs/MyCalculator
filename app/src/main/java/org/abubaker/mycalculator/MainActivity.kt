@@ -161,7 +161,12 @@ class MainActivity : AppCompatActivity() {
         var value = result
 
         // Use the string as it is, but get rid of last two characters from end of the index, i.e. 99.0 = 99
-        if (result.contains(".0"))
+        /**
+         * If the input is 33.01 + 33.01, then the outcome should be 66.02 instead of 66.
+         * The removeZeroAfterDot should use "endsWith" instead of "contains".
+         * Ref: https://www.udemy.com/course/android-kotlin-developer/learn/lecture/17998853#questions/11263624
+         */
+        if (result.endsWith(".0"))
             value = result.substring(0, result.length - 2)
 
         return value
