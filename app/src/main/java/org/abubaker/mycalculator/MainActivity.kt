@@ -54,6 +54,34 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // onEqual() =
+    fun onEqual(view: View) {
+
+        // Operation should not be performed on the null input
+        if (lastNumeric) {
+            val tvValue = binding.tvInput.text.toString()
+
+            try {
+                // - Split text to prepare
+                val splitValue = tvValue.split("-")
+
+                // Store Filtered values from the "split
+                var one = splitValue[0] // Left Side
+                var two = splitValue[1] // Right Side
+
+                // - Subtract values and update Display (tvInput) with the result
+                if (tvValue.contains("-")) {
+                    binding.tvInput.text = (one.toDouble() - two.toDouble()).toString()
+                }
+
+            } catch (e: ArithmeticException) {
+                e.printStackTrace()
+            }
+
+        }
+
+    }
+
     fun onOperator(view: View) {
         if (lastNumeric && !isOperatorAdded(binding.tvInput.text.toString())) {
             binding.tvInput.append((view as Button).text)
@@ -72,5 +100,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 
 }
