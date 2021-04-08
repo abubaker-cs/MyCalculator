@@ -1,14 +1,17 @@
 package org.abubaker.mycalculator
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import org.abubaker.mycalculator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    // Helper variables for . (decimal point)
+    var lastNumeric: Boolean = false
+    var lastDot: Boolean = false
 
     // Binding Object
     private lateinit var binding: ActivityMainBinding
@@ -26,11 +29,27 @@ class MainActivity : AppCompatActivity() {
     // onDigit() -  on clicking 0-9 Digits
     fun onDigit(view: View) {
         binding.tvInput.append((view as Button).text)
+        lastNumeric = true
     }
 
     fun onClear(view: View) {
         binding.tvInput.setText("")
+
+        // reset helper variables
+        lastNumeric = false
+        lastDot = false
+
     }
 
+    fun onDecimalPoint(view: View) {
+
+        // Only runs if
+        if (lastNumeric && !lastDot) {
+            binding.tvInput.append(".")
+            lastNumeric = false
+            lastDot = true
+        }
+
+    }
 
 }
