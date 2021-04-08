@@ -36,9 +36,7 @@ class MainActivity : AppCompatActivity() {
     fun onClear(view: View) {
         binding.tvInput.text = ""
 
-        // reset helper variables
-        lastNumeric = false
-        lastDot = false
+        reset()
 
     }
 
@@ -59,19 +57,41 @@ class MainActivity : AppCompatActivity() {
 
         // Operation should not be performed on the null input
         if (lastNumeric) {
-            val tvValue = binding.tvInput.text.toString()
+            var tvValue = binding.tvInput.text.toString()
+            var prefix = ""
 
             try {
-                // - Split text to prepare
-                val splitValue = tvValue.split("-")
 
-                // Store Filtered values from the "split
-                var one = splitValue[0] // Left Side
-                var two = splitValue[1] // Right Side
+                /**
+                 * Safety Check: -89-40
+                 * In the above example, splitter will retrieve 3 values, i.e. -, 89 and 40
+                 * To overcome this issue, we will first check if the provide value starts with -
+                 * If true, then we will start splitting string from 1 index value
+                 */
+                if (tvValue.startsWith("-")) {
+                    prefix = "-"
+                    tvValue = tvValue.substring(1)
+                }
 
-                // - Subtract values and update Display (tvInput) with the result
+                /**
+                 * - Subtract values and update Display (tvInput) with the result
+                 */
                 if (tvValue.contains("-")) {
+                    // - Split text to prepare
+                    val splitValue = tvValue.split("-")
+
+                    // Store Filtered values from the "split
+                    var one = splitValue[0] // Left Side
+                    var two = splitValue[1] // Right Side
+
+                    // If prefix is not empty then use the original provided value
+                    if (!prefix.isEmpty()) {
+                        one = prefix + one
+                    }
+
+
                     binding.tvInput.text = (one.toDouble() - two.toDouble()).toString()
+
                 }
 
             } catch (e: ArithmeticException) {
@@ -86,8 +106,7 @@ class MainActivity : AppCompatActivity() {
         if (lastNumeric && !isOperatorAdded(binding.tvInput.text.toString())) {
             binding.tvInput.append((view as Button).text)
 
-            lastNumeric = false
-            lastDot = false
+            reset()
         }
     }
 
@@ -99,6 +118,12 @@ class MainActivity : AppCompatActivity() {
             value.contains("/") || value.contains("*") || value.contains("-")
         }
 
+    }
+
+    // reset helper variables
+    private fun reset() {
+        lastNumeric = false
+        lastDot = false
     }
 
 
