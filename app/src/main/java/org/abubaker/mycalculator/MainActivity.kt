@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         lastNumeric = true
     }
 
+    // onClear() - CLR
     fun onClear(view: View) {
         binding.tvInput.text = ""
 
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    // onDecimalPoint()
     fun onDecimalPoint(view: View) {
 
         // Only runs if
@@ -48,6 +50,25 @@ class MainActivity : AppCompatActivity() {
             binding.tvInput.append(".")
             lastNumeric = false
             lastDot = true
+        }
+
+    }
+
+    fun onOperator(view: View) {
+        if (lastNumeric && !isOperatorAdded(binding.tvInput.text.toString())) {
+            binding.tvInput.append((view as Button).text)
+
+            lastNumeric = false
+            lastDot = false
+        }
+    }
+
+    private fun isOperatorAdded(value: String): Boolean {
+
+        return if (value.startsWith("-")) {
+            false
+        } else {
+            value.contains("/") || value.contains("*") || value.contains("-")
         }
 
     }
